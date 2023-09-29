@@ -47,7 +47,7 @@ namespace Hatırlatma_Otomasyonu
 				package.Save();
 
 				ListeyiGuncelle(); // Listeyi güncelleyin
-				MessageBox.Show("Veri başarıyla eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("İş başarıyla kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
@@ -97,7 +97,7 @@ namespace Hatırlatma_Otomasyonu
 
 				ListeyiGuncelle(); // Listeyi güncelleyin
 				YapilanlariListele();
-				MessageBox.Show("Veri başarıyla yapılanlara eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Veri başarıyla yapılanlar listesine eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
@@ -126,12 +126,15 @@ namespace Hatırlatma_Otomasyonu
 			}
 		}
 
+
 		private void YapilanlariListele()
 		{
-			lstYapilanlar.Items.Clear();
-
-			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"yapilanlar.xlsx");
+			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "yapilanlar.xlsx");
 			FileInfo file = new FileInfo(path);
+
+			DataTable dt = new DataTable();
+			dt.Columns.Add("Yapılan İşin Adı", typeof(string));
+			dt.Columns.Add("Bitirme Zamanı", typeof(string));
 
 			if (file.Exists)
 			{
@@ -143,12 +146,19 @@ namespace Hatırlatma_Otomasyonu
 						int totalRows = worksheet.Dimension?.Rows ?? 0;
 						for (int i = 2; i <= totalRows; i++)
 						{
-							lstYapilanlar.Items.Add(worksheet.Cells[i, 1].Text);
+							DataRow row = dt.NewRow();
+							row["Yapılan İşin Adı"] = worksheet.Cells[i, 1].Text;
+							row["Bitirme Zamanı"] = worksheet.Cells[i, 2].Text;
+							dt.Rows.Add(row);
 						}
 					}
 				}
 			}
+
+			dgvYapilanlar.DataSource = dt;
 		}
+
+
 
 		private void btnKaydet_Click(object sender, EventArgs e)
 		{
