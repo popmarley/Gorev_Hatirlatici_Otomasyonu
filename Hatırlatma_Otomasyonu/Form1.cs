@@ -25,14 +25,14 @@ namespace Hatırlatma_Otomasyonu
 		
 		private void YapilacakIsEkle(string isAdi)
 		{
-			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"yapilacaklar_listesi.xlsx");
+			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"yapilacaklar_listesi.xlsx");// Excel dosyasının yolu (debug)
 			FileInfo file = new FileInfo(path);
 			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;//Geliştirme amacıyla kullandığım için lisans matirisini ayarladım
 
 			using (ExcelPackage package = new ExcelPackage(file))
 			{
 				ExcelWorksheet worksheet;
-				if (package.Workbook.Worksheets.Count == 0)
+				if (package.Workbook.Worksheets.Count == 0) // Eğer worksheet yoksa yeni bir tane oluştur
 				{
 					worksheet = package.Workbook.Worksheets.Add("Yapilacaklar");
 				}
@@ -42,7 +42,7 @@ namespace Hatırlatma_Otomasyonu
 				}
 
 				int row = worksheet.Dimension?.Rows + 1 ?? 1;
-				worksheet.Cells[row, 1].Value = isAdi;
+				worksheet.Cells[row, 1].Value = isAdi; // İş adını ve şu anki zamanı sütunlara ekleme
 				worksheet.Cells[row, 2].Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm"); // Tarihi B sütununa ekleme
 				package.Save();
 
@@ -54,13 +54,14 @@ namespace Hatırlatma_Otomasyonu
 
 		private void YapilanIsEkleVeSil(string isAdi)
 		{
+			// Her iki Excel dosyasının yolu
 			string pathYapilacaklar = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,  "yapilacaklar_listesi.xlsx");
 			string pathYapilanlar = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,  "yapilanlar.xlsx");
 
 			FileInfo fileYapilacaklar = new FileInfo(pathYapilacaklar);
 			FileInfo fileYapilanlar = new FileInfo(pathYapilanlar);
 
-
+			//excel dosyalarını açma
 			using (ExcelPackage packageYapilacaklar = new ExcelPackage(fileYapilacaklar))
 			using (ExcelPackage packageYapilanlar = new ExcelPackage(fileYapilanlar))
 			{
@@ -95,15 +96,15 @@ namespace Hatırlatma_Otomasyonu
 				packageYapilanlar.Save();
 
 
-				ListeyiGuncelle(); // Listeyi güncelleyin
+				ListeyiGuncelle(); // Listeyi güncelleme
 				YapilanlariListele();
-				MessageBox.Show("Veri başarıyla yapılanlar listesine eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Veri başarıyla yapılan işler listesine eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
 		private void ListeyiGuncelle()
 		{
-			lstYapilacaklar.Items.Clear(); // Önce mevcut veriyi temizleyin.
+			lstYapilacaklar.Items.Clear(); // Önce mevcut veriyi temizleme
 
 			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "yapilacaklar_listesi.xlsx");
 			FileInfo file = new FileInfo(path);
@@ -155,25 +156,25 @@ namespace Hatırlatma_Otomasyonu
 				}
 			}
 
-			dgvYapilanlar.DataSource = dt;
+			dgvYapilanlar.DataSource = dt; // Yapılan işler listesini DataGridView'e bağlama.
 		}
 
 
 
-		private void btnKaydet_Click(object sender, EventArgs e)
+		private void btnKaydet_Click(object sender, EventArgs e) // Kaydet butonuna tıklanınca iş adını Excel'e ekleme.
 		{
 			YapilacakIsEkle(txtIsAdi.Text);
 			txtIsAdi.Clear();
 		}
 
-		private void btnYapildi_Click(object sender, EventArgs e)
+		private void btnYapildi_Click(object sender, EventArgs e) // Yapıldı butonuna tıklanınca seçili işi Yapılanlar'a ekler ve Yapılacaklar'dan siler.
 		{
 			string isAdi = (string)lstYapilacaklar.SelectedItem;
 			YapilanIsEkleVeSil(isAdi);
 			lstYapilacaklar.Items.Remove(isAdi);
 		}
 
-		private void Form1_Load(object sender, EventArgs e)
+		private void Form1_Load(object sender, EventArgs e) // Form yüklendiğinde listeleri güncelle.
 		{
 			ListeyiGuncelle();
 			YapilanlariListele();
