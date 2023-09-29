@@ -35,15 +35,19 @@
 			this.txtIsAdi = new System.Windows.Forms.TextBox();
 			this.btnYapildi = new System.Windows.Forms.Button();
 			this.lstYapilacaklar = new System.Windows.Forms.ListBox();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.lstYapilanlar = new System.Windows.Forms.ListBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
 			// 
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -110,6 +114,26 @@
 			this.lstYapilacaklar.Size = new System.Drawing.Size(200, 228);
 			this.lstYapilacaklar.TabIndex = 1;
 			// 
+			// tabPage3
+			// 
+			this.tabPage3.Controls.Add(this.lstYapilanlar);
+			this.tabPage3.Location = new System.Drawing.Point(4, 25);
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage3.Size = new System.Drawing.Size(795, 423);
+			this.tabPage3.TabIndex = 2;
+			this.tabPage3.Text = "tabPage3";
+			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// lstYapilanlar
+			// 
+			this.lstYapilanlar.FormattingEnabled = true;
+			this.lstYapilanlar.ItemHeight = 16;
+			this.lstYapilanlar.Location = new System.Drawing.Point(8, 6);
+			this.lstYapilanlar.Name = "lstYapilanlar";
+			this.lstYapilanlar.Size = new System.Drawing.Size(208, 404);
+			this.lstYapilanlar.TabIndex = 0;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -118,10 +142,12 @@
 			this.Controls.Add(this.tabControl1);
 			this.Name = "Form1";
 			this.Text = "Form1";
+			this.Load += new System.EventHandler(this.Form1_Load);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
+			this.tabPage3.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -135,6 +161,8 @@
 		private System.Windows.Forms.TextBox txtIsAdi;
 		private System.Windows.Forms.ListBox lstYapilacaklar;
 		private System.Windows.Forms.Button btnYapildi;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.ListBox lstYapilanlar;
 	}
 }
 

@@ -47,6 +47,7 @@ namespace Hatırlatma_Otomasyonu
 				package.Save();
 
 				ListeyiGuncelle(); // Listeyi güncelleyin
+				MessageBox.Show("Veri başarıyla eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
@@ -93,7 +94,10 @@ namespace Hatırlatma_Otomasyonu
 				packageYapilacaklar.Save();
 				packageYapilanlar.Save();
 
+
 				ListeyiGuncelle(); // Listeyi güncelleyin
+				YapilanlariListele();
+				MessageBox.Show("Veri başarıyla yapılanlara eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
@@ -106,6 +110,7 @@ namespace Hatırlatma_Otomasyonu
 
 			if (file.Exists)
 			{
+				ExcelPackage.LicenseContext = LicenseContext.NonCommercial;//Geliştirme amacıyla kullandığım için lisans matirisini ayarladım
 				using (ExcelPackage package = new ExcelPackage(file))
 				{
 					ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
@@ -121,6 +126,29 @@ namespace Hatırlatma_Otomasyonu
 			}
 		}
 
+		private void YapilanlariListele()
+		{
+			lstYapilanlar.Items.Clear();
+
+			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"yapilanlar.xlsx");
+			FileInfo file = new FileInfo(path);
+
+			if (file.Exists)
+			{
+				using (ExcelPackage package = new ExcelPackage(file))
+				{
+					ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+					if (worksheet != null)
+					{
+						int totalRows = worksheet.Dimension?.Rows ?? 0;
+						for (int i = 2; i <= totalRows; i++)
+						{
+							lstYapilanlar.Items.Add(worksheet.Cells[i, 1].Text);
+						}
+					}
+				}
+			}
+		}
 
 		private void btnKaydet_Click(object sender, EventArgs e)
 		{
@@ -133,6 +161,12 @@ namespace Hatırlatma_Otomasyonu
 			string isAdi = (string)lstYapilacaklar.SelectedItem;
 			YapilanIsEkleVeSil(isAdi);
 			lstYapilacaklar.Items.Remove(isAdi);
+		}
+
+		private void Form1_Load(object sender, EventArgs e)
+		{
+			ListeyiGuncelle();
+			YapilanlariListele();
 		}
 	}
 }
