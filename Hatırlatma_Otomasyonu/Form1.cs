@@ -43,6 +43,7 @@ namespace Hatırlatma_Otomasyonu
 
 				int row = worksheet.Dimension?.Rows + 1 ?? 1;
 				worksheet.Cells[row, 1].Value = isAdi;
+				worksheet.Cells[row, 2].Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm"); // Tarihi B sütununa ekleme
 				package.Save();
 
 				ListeyiGuncelle(); // Listeyi güncelleyin
@@ -86,6 +87,8 @@ namespace Hatırlatma_Otomasyonu
 
 				int row = wsYapilanlar.Dimension?.Rows + 1 ?? 1;
 				wsYapilanlar.Cells[row, 1].Value = isAdi;
+				wsYapilanlar.Cells[row, 2].Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm"); // Tarihi B sütununa ekleme
+
 
 				packageYapilacaklar.Save();
 				packageYapilanlar.Save();
@@ -109,7 +112,7 @@ namespace Hatırlatma_Otomasyonu
 					if (worksheet != null)
 					{
 						int totalRows = worksheet.Dimension?.Rows ?? 0;
-						for (int i = 1; i <= totalRows; i++)
+						for (int i = 2; i <= totalRows; i++)//listbox da 2. sütundan başlama
 						{
 							lstYapilacaklar.Items.Add(worksheet.Cells[i, 1].Text);
 						}
